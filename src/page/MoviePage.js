@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useSWR from 'swr'
 import MovieCard from '../components/movie/MovieCard';
 import { fetcher } from '../config';
+import useDebounce from '../hooks/useDebounce';
 
 const MoviePage = () => {
-    const { data } = useSWR(`https://api.themoviedb.org/3/movie/popular?api_key=bdbdc442fa53c848e35c2a262310be7f`, fetcher);
+    const [filter, setFilter] = useState('');
+    const [url, setUrl] = useState('https://api.themoviedb.org/3/movie/popular?api_key=bdbdc442fa53c848e35c2a262310be7f');
+    const filterDebounce = useDebounce(filter, 3000);
+    const handleFilter = (e) => {
+        setFilter(e.target.value);
+    }
+    useEffect(() => {
+        if (filterDebounce) {
+            setUrl(`https://api.themoviedb.org/3/search/movie?api_key=bdbdc442fa53c848e35c2a262310be7f&query=${filterDebounce}`);
+        } else {
+            setUrl('https://api.themoviedb.org/3/movie/popular?api_key=bdbdc442fa53c848e35c2a262310be7f');
+        }
+    }, [filterDebounce]);
+    const { data } = useSWR(url, fetcher);
+    const loading = !data;
     const movies = data?.results || [];
     return (
         <div className="py-10 page-container">
@@ -14,6 +29,7 @@ const MoviePage = () => {
                         type="text"
                         className="w-full p-4 bg-slate-800 text-white outline-none"
                         placeholder="Type here to search..."
+                        onChange={handleFilter}
                     />
                 </div>
                 <button className="p-4 bg-red-500 text-white">
@@ -33,8 +49,11 @@ const MoviePage = () => {
                     </svg>
                 </button>
             </div>
+            {
+                loading && (<div className='w-10 h-10 rounded-full border-4 border-red-500 border-t-transparent border-t-4 mx-auto animate-spin'></div>)
+            }
             <div className="grid grid-cols-4 gap-10">
-                {movies.length > 0 &&
+                {!loading && movies.length > 0 &&
                     movies.map((item) => (
                         <MovieCard key={item.id} info={item}></MovieCard>
                     ))

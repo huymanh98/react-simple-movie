@@ -89,7 +89,7 @@ function MovieVideos() {
             <div className="flex flex-col gap-10">
                 {results.slice(0, 2).map((item) => (
                     <div className="" key={item.id}>
-                        <h3 className="mb-5 text-xl font-medium p-3 bg-secondary inline-block">
+                        <h3 className="mb-5 text-xl font-medium p-3 bg-red-500 inline-block">
                             {item.name}
                         </h3>
                         <div key={item.id} className="w-full aspect-video">
