@@ -1,15 +1,12 @@
 import React from "react";
 import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
-import { fetcher } from '../../config';
+import { fetcher, tmdbAPI } from '../../config';
 import { SwiperSlide, Swiper } from "swiper/react";
 import Button from "../button/Button";
 
 const Banner = () => {
-    const { data } = useSWR(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=95f2419536f533cdaa1dadf83c606027`,
-        fetcher
-    );
+    const { data } = useSWR(tmdbAPI.getMovieList('upcoming'), fetcher);
     const movies = data?.results || [];
     return (
         <section className="banner h-[500px] page-container mb-20 overflow-hidden">
