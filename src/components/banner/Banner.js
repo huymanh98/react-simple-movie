@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
 import { fetcher } from '../../config';
 import { SwiperSlide, Swiper } from "swiper/react";
+import Button from "../button/Button";
 
 const Banner = () => {
     const { data } = useSWR(
@@ -48,7 +49,7 @@ function BannerItem({ item }) {
                         Adventure
                     </span>
                 </div>
-                <button className='py-3 px-6 rounded-lg text-white bg-red-600 font-medium' onClick={() => navigate(`/movies/${id}`)}>Watch now</button>
+                <Button className='py-3 px-6 rounded-lg text-white bg-red-600 font-medium' onClick={() => navigate(`/movies/${id}`)}>Watch now</Button>
             </div>
         </div>
     );
