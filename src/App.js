@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Main from './layout/Main';
 import HomePage from './page/HomePage';
 import Banner from './components/banner/Banner';
-import MoviePage from './page/MoviePage';
+import MoviePageV2 from './page/MoviePageV2';
 import MovieDetailPage from './page/MovieDetailPage';
 
 function App() {
@@ -20,9 +20,10 @@ function App() {
                             <HomePage></HomePage>
                         </>
                     }></Route>
-                    <Route path='/movies' element={<MoviePage></MoviePage>}></Route>
+                    <Route path='/movies' element={<MoviePageV2></MoviePageV2>}></Route>
                     <Route path='/movies/:movieId' element={<MovieDetailPage></MovieDetailPage>}></Route>
                 </Route>
+                <Route path="*" element={<>Page not found</>}></Route>
             </Routes>
         </Fragment>
     );
